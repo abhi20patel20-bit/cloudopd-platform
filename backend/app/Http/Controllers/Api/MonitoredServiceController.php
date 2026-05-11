@@ -3,29 +3,30 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MonitoredServiceResource;
 use App\Models\MonitoredService;
 
 class MonitoredServiceController extends Controller
 {
     public function index()
     {
-        return response()->json([
-            'data' => MonitoredService::with([
-                'organization',
-                'healthChecks',
-                'incidents',
-            ])->get(),
-        ]);
+        $services = MonitoredService::with([
+            'organization',
+            'healthChecks',
+            'incidents',
+        ])->get();
+
+        return MonitoredServiceResource::collection($services);
     }
 
     public function show(MonitoredService $monitoredService)
     {
-        return response()->json([
-            'data' => $monitoredService->load([
-                'organization',
-                'healthChecks',
-                'incidents',
-            ]),
+        $monitoredService->load([
+            'organization',
+            'healthChecks',
+            'incidents',
         ]);
+
+        return new MonitoredServiceResource($monitoredService);
     }
 }
