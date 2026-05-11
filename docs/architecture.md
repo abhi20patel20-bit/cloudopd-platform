@@ -38,3 +38,29 @@ Laravel API
 Database
 ↓
 Queues / Monitoring / External APIs
+
+# Authentication
+
+The platform uses JWT Bearer token authentication for API access.
+
+Public routes:
+- GET /api/health
+- GET /api/version
+- POST /api/auth/register
+- POST /api/auth/login
+
+Protected routes:
+- GET /api/auth/me
+- POST /api/auth/logout
+- POST /api/auth/refresh
+
+Authentication flow:
+1. User registers or logs in.
+2. Laravel validates credentials.
+3. API returns a JWT access token.
+4. Client sends token using the Authorization header.
+5. Protected routes require a valid token.
+
+Example header:
+
+Authorization: Bearer TOKEN_HERE

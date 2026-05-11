@@ -10,6 +10,9 @@ services:
     depends_on:
       - mysql
       - redis
+    user: "1000:1000"
+    environment:
+        HOME: /tmp
 
   nginx:
     image: nginx:latest
